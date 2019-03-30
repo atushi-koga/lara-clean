@@ -15,7 +15,8 @@ class InMemoryUserRepository implements UserRepositoryInterface
      */
     public function save(User $user)
     {
-        $this->db[$user->getId()->getValue()] = $user;
+        $this->db[$user->getId()
+                       ->getValue()] = $user;
         var_dump($this->db);
     }
 
@@ -26,7 +27,26 @@ class InMemoryUserRepository implements UserRepositoryInterface
     public function find(UserId $id)
     {
         $found = $this->db[$id->getValue()];
+
         return $this->clone($found);
+    }
+
+    /**
+     * @param int|null $limit
+     * @return User[]
+     */
+    public function getOrderById(?int $limit = null): array
+    {
+        $result = [];
+        foreach ($this->db as $id => $val) {
+            $result[] = $this->clone($val);
+
+            if (!is_null($limit) && count($result) >= $limit) {
+                break;
+            }
+        }
+
+        return $result;
     }
 
     /**

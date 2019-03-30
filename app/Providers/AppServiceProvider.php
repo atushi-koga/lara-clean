@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use packages\Domain\Domain\User\UserRepositoryInterface;
+use packages\Infrastructure\User\UserRepository;
 use packages\InMemoryInfrastructure\User\InMemoryUserRepository;
 use packages\UseCase\User\GetList\UserGetListUseCaseInterface;
 use packages\Domain\Application\User\UserGetListInteractor;
@@ -40,7 +41,8 @@ class AppServiceProvider extends ServiceProvider
 
     private function registerForInMemory()
     {
-        $this->app->singleton(UserRepositoryInterface::class, InMemoryUserRepository::class);
+//        $this->app->singleton(UserRepositoryInterface::class, InMemoryUserRepository::class);
+        $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(UserGetListUseCaseInterface::class, UserGetListInteractor::class);
         $this->app->bind(UserCreateUseCaseInterface::class, UserCreateInteractor::class);
     }

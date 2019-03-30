@@ -2,28 +2,22 @@
 
 namespace packages\UseCase\User\Create;
 
+use packages\UseCase\User\Common\UserModel;
+
 class UserCreateResponse
 {
     /**
-     * @var string
+     * @var UserModel[]
      */
-    private $createdUserId;
+    public $users;
 
     /**
      * UserCreateResponse constructor.
      *
-     * @param string $createdUserId
+     * @param UserModel[] $users
      */
-    public function __construct(string $createdUserId)
+    public function __construct(array $users)
     {
-        $this->createdUserId = $createdUserId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCreatedUserId(): string
-    {
-        return $this->createdUserId;
+        $this->users = $users;
     }
 }

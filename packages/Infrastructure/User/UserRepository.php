@@ -15,7 +15,11 @@ class UserRepository implements UserRepositoryInterface
     public function save(User $user)
     {
         DB::table('users')
-          ->updateOrInsert(['id' => $user->getId()], ['name' => $user->getName()]);
+          ->insert([
+              'name'     => $user->getName(),
+              'email'    => $user->getEmail(),
+              'password' => $user->getHashPass(),
+          ]);
     }
 
     /**
@@ -24,9 +28,36 @@ class UserRepository implements UserRepositoryInterface
      */
     public function find(UserId $id)
     {
-        $user = DB::table('users')->where('id', $id->getValue())->first();
+        $user = DB::table('users')
+                  ->where('id', $id->getValue())
+                  ->first();
 
         return new User($id, $user->name);
+    }
+
+    /**
+     * @param int|null $limit
+     * @return User[]
+     */
+    public function getOrderById(?int $limit = null): array
+    {
+        $query = DB::table('users')
+                   ->orderBy('id');
+
+        if (!is_null($limit)) {
+            $query->limit($limit);
+        }
+
+        $result = $query->get();
+
+        $users = [];
+        foreach ($result as $r) {
+            $user = new User($r->name, $r->email, $r->password);
+            $user->setId($r->id);
+            $users[] = $user;
+        }
+
+        return $users;
     }
 
     /**

@@ -31,10 +31,10 @@ class UserGetListInteractor implements UserGetListUseCaseInterface
      */
     public function handle(UserGetListRequest $request)
     {
-        $users = $this->userRepository->findByPage($request->getPage(), $request->getSize());
+        $users = $this->userRepository->getOrderById($request->getSize());
 
-        $userModels = array_map(function ($x) {
-            return new UserModel($x->id, $x->name);
+        $userModels = array_map(function ($user) {
+            return new UserModel($user->getId(), $user->getName());
         }, $users);
 
         return new UserGetListResponse($userModels);

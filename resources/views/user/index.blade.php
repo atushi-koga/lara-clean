@@ -8,15 +8,25 @@
 </head>
 <body>
 <div class="flex-center position-ref full-height">
-  @foreach ($viewModel->users as $user)
-    <p>UserId: {{ $user->id }}, name: {{ $user->name }}</p>
-  @endforeach
-
   <p>ユーザ作成リクエスト</p>
   <form action="/user/create" method="post">
     @csrf
-    <input type="input" name="name"> <input type="submit">
+    <div>
+      <label> name: <input type="text" name="name"> </label>
+    </div>
+    <div>
+      <label> email: <input type="text" name="email"> </label>
+    </div>
+    <div>
+      <label> password: <input type="text" name="password"> </label>
+    </div>
+
+    <button type="submit">submit</button>
   </form>
+
+  @foreach ($viewModel->users as $user)
+    <p>UserId: {{ $user->id }}, name: {{ $user->name }}</p>
+  @endforeach
 </div>
 </body>
 </html>

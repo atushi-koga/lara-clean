@@ -2,10 +2,18 @@
 
 namespace packages\Domain\Domain\User;
 
+use Illuminate\Support\Facades\Hash;
+
+/**
+ * Class User
+ * Entitiesに相当する
+ *
+ * @package packages\Domain\Domain\User
+ */
 class User
 {
     /**
-     * @var UserId
+     * @var int
      */
     private $id;
 
@@ -14,18 +22,39 @@ class User
      */
     private $name;
 
-    public function __construct(UserId $id, string $name)
+    /**
+     * @var string
+     */
+    private $email;
+
+    /**
+     * Hashed password
+     *
+     * @var string
+     */
+    private $password;
+
+    public function __construct(string $name, string $email, string $password)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->name     = $name;
+        $this->email    = $email;
+        $this->password = Hash::make($password);
     }
 
     /**
-     * @return UserId
+     * @return int
      */
-    public function getId(): UserId
+    public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -35,6 +64,23 @@ class User
     {
         return $this->name;
     }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHashPass(): string
+    {
+        return $this->password;
+    }
+
 }
 
 

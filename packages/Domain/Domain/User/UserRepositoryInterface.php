@@ -11,8 +11,15 @@ interface UserRepositoryInterface
 
     /**
      * @param UserId $id
+     * @return User
      */
     public function find(UserId $id);
+
+    /**
+     * @param null|int $limit
+     * @return User[]
+     */
+    public function getOrderById(?int $limit = null);
 
     /**
      * @param int $page
