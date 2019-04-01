@@ -25,7 +25,7 @@
   </form>
 
   @foreach ($viewModel->users as $user)
-    <p>UserId: {{ $user->id }}, name: {{ $user->name }}</p>
+    <p><a href="{{ route('user.detail', ['id' => $user->id]) }}">UserId: {{ $user->id }}, name: {{ $user->name }}</a></p>
   @endforeach
 </div>
 </body>

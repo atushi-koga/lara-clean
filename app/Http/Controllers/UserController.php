@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Models\User\Commons\UserViewModel;
 use App\Http\Models\User\Create\UserCreateViewModel;
+use App\Http\Models\User\Create\UserDetailViewModel;
 use App\Http\Models\User\Index\UserIndexViewModel;
 use packages\UseCase\User\Create\UserCreateUseCaseInterface;
 use Illuminate\Http\Request;
 use packages\UseCase\User\Create\UserCreateRequest;
+use packages\UseCase\User\Create\UserDetailRequest;
+use packages\UseCase\User\Create\UserDetailUseCaseInterface;
 use packages\UseCase\User\GetList\UserGetListRequest;
 use packages\UseCase\User\GetList\UserGetListUseCaseInterface;
 
@@ -35,18 +38,19 @@ class UserController extends Controller
 
         $request = new UserCreateRequest($name, $email, $password);
 
+        $interactor->handle($request);
+
+        return redirect(route('user.index'));
+    }
+
+    public function detail(UserDetailUseCaseInterface $interactor, $id)
+    {
+        $request = new UserDetailRequest(intval($id));
+
         $response = $interactor->handle($request);
 
-//        $viewModel = new UserCreateViewModel($response->getCreatedUserId(), $name);
-//
-//        return view('user.create', compact('viewModel'));
+        $viewModel = new UserDetailViewModel($response->user->id, $response->user->name);
 
-        $users = array_map(function ($x) {
-            return new UserViewModel($x->id, $x->name);
-        }, $response->users);
-
-        $viewModel = new UserIndexViewModel($users);
-
-        return view('user.index', compact('viewModel'));
+        return view('user.detail', compact('viewModel'));
     }
 }

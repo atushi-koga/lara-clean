@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use packages\Domain\Application\User\UserDetailInteractor;
 use packages\Domain\Domain\User\UserRepositoryInterface;
 use packages\Infrastructure\User\UserRepository;
 use packages\InMemoryInfrastructure\User\InMemoryUserRepository;
+use packages\UseCase\User\Create\UserDetailUseCaseInterface;
 use packages\UseCase\User\GetList\UserGetListUseCaseInterface;
 use packages\Domain\Application\User\UserGetListInteractor;
 use packages\UseCase\User\Create\UserCreateUseCaseInterface;
@@ -45,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(UserGetListUseCaseInterface::class, UserGetListInteractor::class);
         $this->app->bind(UserCreateUseCaseInterface::class, UserCreateInteractor::class);
+        $this->app->bind(UserDetailUseCaseInterface::class, UserDetailInteractor::class);
     }
 
     private function registerForMock()

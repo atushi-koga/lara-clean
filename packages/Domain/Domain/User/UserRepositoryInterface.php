@@ -10,10 +10,10 @@ interface UserRepositoryInterface
     public function save(User $user);
 
     /**
-     * @param UserId $id
+     * @param int $id
      * @return User
      */
-    public function find(UserId $id);
+    public function find(int $id);
 
     /**
      * @param null|int $limit

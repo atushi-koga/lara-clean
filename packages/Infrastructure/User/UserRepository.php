@@ -23,16 +23,19 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param UserId $id
+     * @param int $id
      * @return User
      */
-    public function find(UserId $id)
+    public function find(int $id)
     {
-        $user = DB::table('users')
-                  ->where('id', $id->getValue())
-                  ->first();
+        $result = DB::table('users')
+                    ->where('id', $id)
+                    ->first();
 
-        return new User($id, $user->name);
+        $user = new User($result->name, $result->name, $result->password);
+        $user->setId($result->id);
+
+        return $user;
     }
 
     /**
